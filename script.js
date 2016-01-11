@@ -1,54 +1,63 @@
+(function(){
 
-function domobj(){
-  var self        =this;
-  self.products   = [];
+  function ProductPage(params){
+    var self = this;
+    self.products = [];
 
-  self.getproducts = function(url){
-    $.getJSON(url, function(response){
-        for(i=0; i<response.sales.length ; i++){
-          self.products.push( new productobj(response.sales[i], i)  );
-        }
-    });
-  }
-    
-  self.updateproducthtml = function(){
-    for( i=0; i< self.products.length ; i++){
-      self.products[i].updatehtml();
-    }
-  }
-  
-  self.updatedom = function(){
-    var i=0
-    thishtml='';
-    for( i=0; i< self.products.length ; i++){
-      if (i % 3 == 0 ){  thishtml += "<div class='row'>"; console.log("START") }
-      thishtml += self.products[i].htmlview;
-      if ((i % 3 == 2) || i == (self.products.length-1) ){thishtml += "</div>";console.log("FINISH")}
-    }
-    $("#content").append(thishtml)
-  }
-  
-}
+    self.loadProducts = function(productsUrl, templateUrl){
+      $.getJSON(productsUrl, function(response){
+        $.each(response.sales, function(i, sale) {
+          self.products.push( new Product(sale, i) );
+        });
 
-function productobj(product, i){
-  var self          = this;
-  self.photo        = product.photos.medium_half
-  self.title        = product.name
-  self.tagline      = product.tagline
-  self.url          = product.url
-  self.htmlview     = ""
-  self.index        = i
-  self.custom_class = "col"+ ((i % 3) +1)
-  
-  self.updatehtml= function(){
-    $.get('product-template.html', function(template){
+        self.updateProductsHtml(templateUrl);
+      });
+    };
+
+    self.updateProductsHtml = function(templateUrl){
+      $.get(templateUrl, function(template){
+        $.each(self.products, function(i, product){
+          product.updatehtml(template);
+        });
+
+        self.updatedom();
+      });
+    };
+
+    self.updatedom = function(){
+      var thishtml='';
+
+      $.each(self.products, function(i, product){
+        if (i % 3 === 0 ) thishtml += "<div class='row'>";
+        thishtml += self.products[i].htmlview;
+        if ((i % 3 == 2) || i == (self.products.length-1)) thishtml += "</div>";
+      });
+
+      $("#content").append(thishtml);
+    };
+
+  }
+
+  function Product(product, i){
+    var self          = this;
+    self.photo        = product.photos.medium_half;
+    self.title        = product.name;
+    self.tagline      = product.tagline;
+    self.url          = product.url;
+    self.htmlview     = "";
+    self.index        = i;
+    self.custom_class = "col" + ((i % 3) +1);
+
+    self.updatehtml = function(template){
       self.htmlview = template.replace('{image}', self.photo).replace('{title}', self.title).replace('{tagline}', self.tagline).replace('{url}', self.url).replace('{custom_class}', self.custom_class);
-    });
+    };
   }
-}
 
+  function init(){
+    var page = new ProductPage();
+    page.loadProducts('data.json', 'product-template.html');
+  }
 
-var page=new domobj();
-page.getproducts('data.json');
-setTimeout("console.log('building html');page.updateproducthtml();",20);
-setTimeout("page.updatedom()",50)
+  init();
+
+})();
