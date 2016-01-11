@@ -32,8 +32,16 @@
       thishtml += "</div>";
 
       $("#content").append(thishtml);
+
+      self.initRemoveListeners();
     };
 
+    self.initRemoveListeners = function(){
+      $('.remove').on('click', function(e) {
+        e.preventDefault();
+        $(e.currentTarget).parents('.product-container').remove();
+      });
+    };
   }
 
   function Product(product, i){

@@ -7,38 +7,6 @@ a {
   color: #0096ff;
 }
 
-.product-container {
-  padding: 10px;
-}
-
-.image-container {
-  position: relative;
-  overflow: auto;
-}
-
-.product-container img {
-  width:100%;
-  height:auto;
-}
-
-.description-overlay {
-  color: #fff;
-  font-size: 11px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background:#000;
-  opacity: .7;
-  padding: 11px;
-  visibility: hidden;
-}
-
-.product-content:hover .description-overlay {
-  visibility: visible;
-}
-
 .page-title {
   font-size: 36px;
   text-align: center;
@@ -50,8 +18,58 @@ a {
   text-align: center;
 }
 
+.product-container {
+  padding: 10px;
+}
+
+.image-container {
+  position: relative;
+  overflow: auto;
+}
+
+.remove {
+  color: #e6e6e6;
+  position: absolute;
+  top: 11;
+  right: 11;
+  border: 0;
+  background: rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.remove:hover {
+  color: #fff;
+}
+
 .product-content {
   border: 1px solid #aaa;
+}
+
+.product-content img {
+  width:100%;
+  height:auto;
+}
+
+.product-content:hover .description-overlay {
+  visibility: visible;
+}
+
+.description-overlay {
+  color: #fff;
+  font-size: 11px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  opacity: .7;
+  padding: 18px;
+  visibility: hidden;
+}
+
+.info {
+  padding: 10px;
 }
 
 .title {
@@ -63,8 +81,4 @@ a {
 .tagline {
   font-size: 16px;
   text-align: center;
-}
-
-.description {
-  padding: 10px;
 }
