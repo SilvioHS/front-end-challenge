@@ -5,6 +5,8 @@
     self.products = [];
 
     self.loadProducts = function(productsUrl, templateUrl){
+      $(".loading").show();
+
       $.getJSON(productsUrl, function(response){
         $.each(response.sales, function(i, sale) {
           self.products.push( new Product(sale, i) );
@@ -13,6 +15,8 @@
         self.updateProductsHTML(templateUrl);
       });
     };
+
+    // private
 
     self.updateProductsHTML = function(templateUrl){
       $.get(templateUrl, function(template){
@@ -31,15 +35,22 @@
       });
       thishtml += "</div>";
 
-      $("#content").append(thishtml);
-
+      $(".content").append(thishtml);
       self.initRemoveListeners();
+
+      $("img").load(function() {
+        $(".loading").hide();
+        $(".content").show();
+      });
+
     };
 
     self.initRemoveListeners = function(){
       $('.remove').on('click', function(e) {
         e.preventDefault();
-        $(e.currentTarget).parents('.product-container').remove();
+        $(e.currentTarget).parents('.product-container').fadeOut("fast", function(){
+          this.remove();
+        });
       });
     };
   }
