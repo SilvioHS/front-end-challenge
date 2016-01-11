@@ -26,11 +26,9 @@
 
     self.updatedom = function(){
       var thishtml="<div class='row'>";
-
       $.each(self.products, function(i, product){
-        thishtml += self.products[i].htmlview;
+        thishtml += product.htmlview;
       });
-
       thishtml += "</div>";
 
       $("#content").append(thishtml);
@@ -42,6 +40,7 @@
     var self          = this;
     self.photo        = product.photos.medium_half;
     self.title        = product.name;
+    self.description  = product.description;
     self.tagline      = product.tagline;
     self.url          = product.url;
     self.htmlview     = "";
@@ -49,7 +48,14 @@
     self.custom_class = "col-md-4";
 
     self.updatehtml = function(template){
-      self.htmlview = template.replace('{image}', self.photo).replace('{title}', self.title).replace('{tagline}', self.tagline).replace('{url}', self.url).replace('{custom_class}', self.custom_class);
+      console.log(product.description);
+
+      self.htmlview = template.replace('{image}', self.photo)
+                              .replace('{title}', self.title)
+                              .replace('{tagline}', self.tagline)
+                              .replace('{url}', self.url)
+                              .replace('{custom_class}', self.custom_class)
+                              .replace('{description}', self.description);
     };
   }
 

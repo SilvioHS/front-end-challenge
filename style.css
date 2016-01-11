@@ -7,6 +7,31 @@ a {
   color: #0096ff;
 }
 
+.product-container {
+  padding: 10px;
+}
+
+.image-container {
+  position: relative;
+  overflow: auto;
+}
+
+.product-container img {
+  width:100%;
+  height:auto;
+}
+
+.description-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background:#000;
+  opacity:.8;
+/*  display: none;*/
+}
+
 .page-title {
   font-size: 36px;
   text-align: center;
@@ -15,15 +40,6 @@ a {
 .page-tagline {
   font-size: 18px;
   text-align: center;
-}
-
-.product-container {
-  padding: 10px;
-}
-
-.product-container img {
-  width:100%;
-  height:auto;
 }
 
 .product-content {
