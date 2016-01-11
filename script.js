@@ -10,21 +10,21 @@
           self.products.push( new Product(sale, i) );
         });
 
-        self.updateProductsHtml(templateUrl);
+        self.updateProductsHTML(templateUrl);
       });
     };
 
-    self.updateProductsHtml = function(templateUrl){
+    self.updateProductsHTML = function(templateUrl){
       $.get(templateUrl, function(template){
         $.each(self.products, function(i, product){
           product.updatehtml(template);
         });
 
-        self.updatedom();
+        self.updateDOM();
       });
     };
 
-    self.updatedom = function(){
+    self.updateDOM = function(){
       var thishtml="<div class='row'>";
       $.each(self.products, function(i, product){
         thishtml += product.htmlview;
@@ -48,8 +48,6 @@
     self.custom_class = "col-md-4";
 
     self.updatehtml = function(template){
-      console.log(product.description);
-
       self.htmlview = template.replace('{image}', self.photo)
                               .replace('{title}', self.title)
                               .replace('{tagline}', self.tagline)

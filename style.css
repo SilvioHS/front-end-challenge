@@ -22,19 +22,27 @@ a {
 }
 
 .description-overlay {
+  color: #fff;
+  font-size: 11px;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background:#000;
-  opacity:.8;
-/*  display: none;*/
+  opacity: .7;
+  padding: 11px;
+  visibility: hidden;
+}
+
+.product-content:hover .description-overlay {
+  visibility: visible;
 }
 
 .page-title {
   font-size: 36px;
   text-align: center;
+  font-weight: bold;
 }
 
 .page-tagline {
@@ -49,6 +57,7 @@ a {
 .title {
   font-size: 16px;
   text-align: center;
+  font-weight: bold;
 }
 
 .tagline {
