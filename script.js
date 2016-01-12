@@ -1,6 +1,17 @@
+//OPTIMIZATIONS: Using setTimeout to wait for the JSON to load is both buggy and inefficient.
+//I Placed those method calls inside the AJAX callback functions, so that they would be
+//called as soon as the JSON was loaded (faster and not buggy).
+//The template is now only loaded once to minimize AJAX requests.
+//I also did some renaming and syntax edits to make this script more readable and maintainable
+//Lastly, If I were to continue working on this page I would make the responsiveness a little better
+//by changing the @media break points so one could see two columns (for tablets) of products before it
+//transitions into the single column, full mobile friendly version.
+
+
+// preserving namespace
 (function(){
 
-  function ProductPage(params){
+  function ProductPage(){
     var self = this;
     self.products = [];
 
@@ -8,6 +19,8 @@
       $(".loading").show();
 
       $.getJSON(productsUrl, function(response){
+
+        //each loop is more readable than for loop
         $.each(response.sales, function(i, sale) {
           self.products.push( new Product(sale, i) );
         });
@@ -19,9 +32,10 @@
     // private
 
     self.updateProductsHTML = function(templateUrl){
+      //load template before loop
       $.get(templateUrl, function(template){
         $.each(self.products, function(i, product){
-          product.updatehtml(template);
+          product.updateHTML(template);
         });
 
         self.updateDOM();
@@ -30,14 +44,17 @@
 
     self.updateDOM = function(){
       var thishtml="<div class='row'>";
+
       $.each(self.products, function(i, product){
         thishtml += product.htmlview;
       });
+
       thishtml += "</div>";
 
       $(".content").append(thishtml);
       self.initRemoveListeners();
 
+      //wait for all images to load before displaying content
       $("img").load(function() {
         $(".loading").hide();
         $(".content").show();
@@ -48,6 +65,8 @@
     self.initRemoveListeners = function(){
       $('.remove').on('click', function(e) {
         e.preventDefault();
+
+        //smoothing product removal
         $(e.currentTarget).parents('.product-container').fadeOut("fast", function(){
           this.remove();
         });
@@ -66,7 +85,7 @@
     self.index        = i;
     self.custom_class = "col-md-4";
 
-    self.updatehtml = function(template){
+    self.updateHTML = function(template){
       self.htmlview = template.replace('{image}', self.photo)
                               .replace('{title}', self.title)
                               .replace('{tagline}', self.tagline)
@@ -78,6 +97,8 @@
 
   function init(){
     var page = new ProductPage();
+
+    //input urls as params
     page.loadProducts('data.json', 'product-template.html');
   }
 
